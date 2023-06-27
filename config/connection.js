@@ -10,3 +10,5 @@ const db = mysql.createConnection(
     },
     console.log("connected to the movie_db database")
 );
+
+module.exports = db;
