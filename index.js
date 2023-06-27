@@ -29,6 +29,10 @@ function init() {
             //return all the employees in the db
             viewAllEmployees().then(([rows]) => console.log(rows)).then(() => init());
         }
+        else if(answer.choice === "Add Employee") {
+            addEmployee().then(([rows]) => console.log(rows)).then(() => init());
+        }
+        else if
     })
 }
 
