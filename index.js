@@ -42,3 +42,15 @@ function viewAllEmployees() {
     const sql = `SELECT employee.first_name AS manager FROM employee`;
     return db.promise().query(sql);
     };
+
+function viewAllRoles() {
+    const sql = `SELECT role.title AS roles FROM employee`;
+    return db.promise().query(sql);
+    };
+
+function viewAllDepartments() {
+    const sql = `SELECT department.department_name AS departments from department`;
+    return db.promise().query(sql);
+};
+
+
