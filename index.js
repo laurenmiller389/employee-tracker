@@ -45,10 +45,13 @@ function init() {
             viewAllEmployees().then(([rows]) => console.table(rows)).then(() => init());
         } else if (answer.choice === "View All Roles") {
             viewAllRoles().then(([rows]) => console.table(rows)).then(() => init());
-        }
-        // else if(answer.choice === "Add Employee") {
-        //     addEmployee().then(([rows]) => console.log(rows)).then(() => init());
-        // }
+        }else if (answer.choice === "View All Departments") {
+            viewAllRoles().then(([rows]) => console.table(rows)).then(() => init());
+        } else if(answer.choice === "Add Employee") {
+             addEmployee().then(([rows]) => console.log(rows)).then(() => init());
+        } else if(answer.choice === "Add Employee") {
+            addEmployee().then(([rows]) => console.log(rows)).then(() => init());
+       }
     })
 }
 
@@ -70,7 +73,17 @@ function viewAllDepartments() {
 function addDepartment() {
     // Inquirer prompt to get user input for the department name
     // Take their response and run a prepared statement
-    // `Insert into [TABLE] VALUES (?)` 
+    // `Insert into [TABLE] VALUES (?)`
+    inquirer.prompt([
+        {
+            name: "name",
+            type: "input",
+            message: "Enter new department: "
+        }
+    ]).then(function(res) {
+        const sql = `INSERT INTO department SET ?`;
+        return db.promise().query(sql, { name: res.name })
+    }) 
 }
 
 function addEmployee() {
@@ -101,10 +114,8 @@ function addEmployee() {
         }
     ]).then(function (value) {
         //may need to define role and manager ids here
-        db.query("INSERT INTO employee (first_name, last_name, manager_id, role_id) VALUES (?, ?, ?, ?)", [value.first_name, value.last_name, value.role_id, value.manager_id], function(err){
-            if (err) throw err
-            init()
-        })
+        const sql = `INSERT INTO employee (first_name, last_name, manager_id, role_id) VALUES (?, ?, ?, ?)`
+        return db.promise().query(sql,[value.first_name, value.last_name, value.role_id, value.manager_id] );
     })
 }
 
