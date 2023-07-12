@@ -62,10 +62,10 @@ function viewAllRoles() {
     return db.promise().query(sql);
     };
 
-// function viewAllDepartments() {
-//     const sql = `SELECT department.department_name AS departments from department`;
-//     return db.promise().query(sql);
-// };
+function viewAllDepartments() {
+     const sql = `SELECT department.department_name AS departments FROM department`;
+     return db.promise().query(sql);
+ };
 
 function addDepartment() {
     // Inquirer prompt to get user input for the department name
@@ -76,6 +76,36 @@ function addDepartment() {
 function addEmployee() {
     // SQL query on all roles, you want the ID and the title
     // Inquirer prompt for user to select a role (This should display the title, but have the value of the ID EX: { name: "Sales Lead", value: "1"})
+    inquirer.prompt([
+        {
+            name: "first_name",
+            type: "input",
+            message: "Enter emoplyee's first name: "
+        },
+        {
+            name: "last_name",
+            type: "input",
+            message: "Enter employee's last name: "
+        },
+        {
+            name: "role_id",
+            type: "list",
+            message: "Enter employee's role: "
+            //need to add a choices drop down for role
+        },
+        {
+            name: "manager_id",
+            type: "list",
+            message: "Enter manager name: "
+            //need to add a choices drop down for manager
+        }
+    ]).then(function (value) {
+        //may need to define role and manager ids here
+        db.query("INSERT INTO employee (first_name, last_name, manager_id, role_id) VALUES (?, ?, ?, ?)", [value.first_name, value.last_name, value.role_id, value.manager_id], function(err){
+            if (err) throw err
+            init()
+        })
+    })
 }
 
 init();
