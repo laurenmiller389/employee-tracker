@@ -46,11 +46,13 @@ function init() {
         } else if (answer.choice === "View All Roles") {
             viewAllRoles().then(([rows]) => console.table(rows)).then(() => init());
         }else if (answer.choice === "View All Departments") {
-            viewAllRoles().then(([rows]) => console.table(rows)).then(() => init());
-        } else if(answer.choice === "Add Employee") {
+            viewAllDepartments().then(([rows]) => console.table(rows)).then(() => init());
+        } else if(answer.choice === "Add Department") {
              addEmployee().then(([rows]) => console.log(rows)).then(() => init());
         } else if(answer.choice === "Add Employee") {
-            addEmployee().then(([rows]) => console.log(rows)).then(() => init());
+            addDepartment().then(([rows]) => console.log(rows)).then(() => init());
+        } else if(answer.choice === "Add Role") {
+            addRole().then(([rows]) => console.log(rows)).then(() => init());
        }
     })
 }
@@ -117,6 +119,24 @@ function addEmployee() {
         const sql = `INSERT INTO employee (first_name, last_name, manager_id, role_id) VALUES (?, ?, ?, ?)`
         return db.promise().query(sql,[value.first_name, value.last_name, value.role_id, value.manager_id] );
     })
+}
+
+    function addRole() {
+        inquirer.prompt([
+            {
+                name: "title",
+                type: "input",
+                message: "Enter a role: "
+            },
+            {
+                name: "salary",
+                type: "input",
+                message: "Enter the salary: "
+            }
+    ]).then(function(res) {
+        const sql = `INSERT INTO role SET ?`;
+        return db.promise().query(sql, { title: res.title, salary: res.salary })
+    }) 
 }
 
 init();
